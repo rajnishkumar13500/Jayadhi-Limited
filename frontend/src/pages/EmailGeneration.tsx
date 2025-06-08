@@ -14,11 +14,15 @@ import {
   MenuItem,
   IconButton,
   Paper,
+  useTheme,
 } from '@mui/material';
-import { ContentCopy as CopyIcon } from '@mui/icons-material';
+import { ContentCopy as CopyIcon, Email as EmailIcon } from '@mui/icons-material';
 import axios from 'axios';
+import { commonStyles, pulse, fadeIn } from '../styles/common';
 
-const BE_BASE_URL = 'https://jayadhi-limited-be.vercel.app';
+const BE_BASE_URL = 'https://jayadhi-limited-be.vercel.app' ;
+// const BE_BASE_URL = 'http://localhost:3000' ;
+
 
 const emailTypes = [
   { value: 'formal', label: 'Formal' },
@@ -48,6 +52,7 @@ export default function EmailGeneration() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [copySuccess, setCopySuccess] = useState(false);
+  const theme = useTheme();
 
   const handleInputChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
@@ -95,21 +100,29 @@ export default function EmailGeneration() {
     return (
       <Paper 
         elevation={3} 
-        sx={{ 
-          p: 3, 
-          mb: 2, 
-          backgroundColor: '#f8f9fa',
-          position: 'relative'
-        }}
+        sx={commonStyles.resultContainer}
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-          <Typography variant="h6" color="primary">
+          <Typography 
+            variant="h6" 
+            sx={{ 
+              color: theme.palette.primary.main,
+              fontFamily: '"Poppins", sans-serif',
+              fontWeight: 600
+            }}
+          >
             Generated Email
           </Typography>
           <IconButton 
             onClick={handleCopy}
             color={copySuccess ? "success" : "primary"}
             title="Copy to clipboard"
+            sx={{
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'scale(1.1)',
+              }
+            }}
           >
             <CopyIcon />
           </IconButton>
@@ -144,7 +157,11 @@ export default function EmailGeneration() {
               whiteSpace: 'pre-wrap',
               lineHeight: 1.6,
               fontSize: '1.1rem',
-              fontFamily: 'monospace'
+              fontFamily: '"Roboto Mono", monospace',
+              color: theme.palette.text.primary,
+              p: 2,
+              backgroundColor: 'rgba(0,0,0,0.02)',
+              borderRadius: 1
             }}
           >
             {generatedEmail}
@@ -162,7 +179,8 @@ export default function EmailGeneration() {
                 whiteSpace: 'pre-wrap',
                 lineHeight: 1.6,
                 fontSize: '1rem',
-                color: 'text.secondary'
+                color: 'text.secondary',
+                fontFamily: '"Roboto Mono", monospace'
               }}
             >
               {formData.signature}
@@ -177,7 +195,8 @@ export default function EmailGeneration() {
             sx={{ 
               position: 'absolute',
               top: 8,
-              right: 48
+              right: 48,
+              animation: `${fadeIn} 0.3s ease-out`
             }}
           >
             Copied!
@@ -188,13 +207,17 @@ export default function EmailGeneration() {
   };
 
   return (
-    <Box sx={{ maxWidth: 800, mx: 'auto' }}>
-      <Typography variant="h4" gutterBottom>
-        Email Generation
-      </Typography>
-      <Card sx={{ mb: 3 }}>
+    <Box sx={commonStyles.pageContainer}>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+        <EmailIcon sx={{ fontSize: 40, mr: 2, color: theme.palette.primary.main }} />
+        <Typography variant="h4" sx={commonStyles.title}>
+          Email Generation
+        </Typography>
+      </Box>
+
+      <Card sx={commonStyles.card}>
         <CardContent>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
             <TextField
               fullWidth
               label="Subject"
@@ -202,7 +225,10 @@ export default function EmailGeneration() {
               value={formData.subject}
               onChange={handleInputChange('subject')}
               required
-              helperText="The main topic or purpose of your email (e.g., 'Meeting Request', 'Project Update')"
+              sx={commonStyles.inputField}
+              InputProps={{
+                sx: { fontFamily: '"Roboto Mono", monospace' }
+              }}
             />
             <TextField
               fullWidth
@@ -211,7 +237,10 @@ export default function EmailGeneration() {
               value={formData.sender}
               onChange={handleInputChange('sender')}
               required
-              helperText="Your email address that will appear as the sender (e.g., 'john.doe@company.com')"
+              sx={commonStyles.inputField}
+              InputProps={{
+                sx: { fontFamily: '"Roboto Mono", monospace' }
+              }}
             />
             <TextField
               fullWidth
@@ -220,7 +249,10 @@ export default function EmailGeneration() {
               value={formData.receiver}
               onChange={handleInputChange('receiver')}
               required
-              helperText="The email address of the person or team you're sending this to"
+              sx={commonStyles.inputField}
+              InputProps={{
+                sx: { fontFamily: '"Roboto Mono", monospace' }
+              }}
             />
             <TextField
               fullWidth
@@ -231,7 +263,10 @@ export default function EmailGeneration() {
               value={formData.body}
               onChange={handleInputChange('body')}
               required
-              helperText="The main content of your email. Be clear and concise about your message"
+              sx={commonStyles.inputField}
+              InputProps={{
+                sx: { fontFamily: '"Roboto Mono", monospace' }
+              }}
             />
             <TextField
               fullWidth
@@ -241,7 +276,10 @@ export default function EmailGeneration() {
               placeholder="Enter your name, title, and contact information"
               value={formData.signature}
               onChange={handleInputChange('signature')}
-              helperText="Your professional signature including name, title, and contact details"
+              sx={commonStyles.inputField}
+              InputProps={{
+                sx: { fontFamily: '"Roboto Mono", monospace' }
+              }}
             />
             <FormControl fullWidth>
               <InputLabel>Type</InputLabel>
@@ -249,6 +287,7 @@ export default function EmailGeneration() {
                 value={formData.type}
                 label="Type"
                 onChange={(e) => setFormData((prev) => ({ ...prev, type: e.target.value }))}
+                sx={commonStyles.inputField}
               >
                 {emailTypes.map((type) => (
                   <MenuItem key={type.value} value={type.value}>
@@ -256,9 +295,6 @@ export default function EmailGeneration() {
                   </MenuItem>
                 ))}
               </Select>
-              <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
-                Choose the tone and style of your email (e.g., Formal for business, Urgent for immediate attention)
-              </Typography>
             </FormControl>
             <FormControl fullWidth>
               <InputLabel>Priority</InputLabel>
@@ -266,6 +302,7 @@ export default function EmailGeneration() {
                 value={formData.priority}
                 label="Priority"
                 onChange={(e) => setFormData((prev) => ({ ...prev, priority: e.target.value }))}
+                sx={commonStyles.inputField}
               >
                 {priorityLevels.map((level) => (
                   <MenuItem key={level.value} value={level.value}>
@@ -273,9 +310,6 @@ export default function EmailGeneration() {
                   </MenuItem>
                 ))}
               </Select>
-              <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
-                Set the importance level of your email (e.g., High for critical matters, Low for general updates)
-              </Typography>
             </FormControl>
             <TextField
               fullWidth
@@ -283,22 +317,34 @@ export default function EmailGeneration() {
               placeholder="Enter the name of the file to attach"
               value={formData.attachments}
               onChange={handleInputChange('attachments')}
-              helperText="Name of the file you want to attach (e.g., 'report.pdf', 'meeting_notes.docx')"
+              sx={commonStyles.inputField}
+              InputProps={{
+                sx: { fontFamily: '"Roboto Mono", monospace' }
+              }}
             />
             <Button
               variant="contained"
               onClick={handleGenerateEmail}
               disabled={loading}
               fullWidth
+              sx={commonStyles.button}
+              startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <EmailIcon />}
             >
-              {loading ? <CircularProgress size={24} /> : 'Generate Email'}
+              {loading ? 'Generating...' : 'Generate Email'}
             </Button>
           </Box>
         </CardContent>
       </Card>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
+        <Alert 
+          severity="error" 
+          sx={{ 
+            mt: 3, 
+            animation: `${pulse} 0.5s ease-in-out`,
+            borderRadius: 2
+          }}
+        >
           {error}
         </Alert>
       )}
