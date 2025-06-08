@@ -1,8 +1,8 @@
-import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, IconButton, Typography, useTheme, useMediaQuery, Divider, Avatar } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, IconButton, Typography, useTheme, useMediaQuery, Avatar } from '@mui/material';
 import { Menu as MenuIcon, Dashboard as DashboardIcon, Translate as TranslateIcon, Summarize as SummarizeIcon, Email as EmailIcon, ChevronLeft as ChevronLeftIcon } from '@mui/icons-material';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { commonStyles, fadeIn } from '../styles/common';
+import { fadeIn } from '../styles/common';
 
 const drawerWidth = 280;
 

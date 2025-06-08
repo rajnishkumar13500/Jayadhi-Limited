@@ -1,4 +1,4 @@
-import { Grid, Card, CardContent, CardActions, Typography, Button, Box, useTheme } from '@mui/material';
+import { Grid, Card, CardContent, CardActions, Typography, Button, Box } from '@mui/material';
 import { Translate as TranslateIcon, Summarize as SummarizeIcon, Email as EmailIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { commonStyles, fadeIn, pulse } from '../styles/common';
@@ -29,7 +29,6 @@ const services = [
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const theme = useTheme();
 
   return (
     <Box sx={{ animation: `${fadeIn} 0.5s ease-in-out` }}>
@@ -143,4 +142,4 @@ export default function Dashboard() {
       </Grid>
     </Box>
   );
-} 
+}
