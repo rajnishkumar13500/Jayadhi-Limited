@@ -18,6 +18,8 @@ import {
 import { ContentCopy as CopyIcon } from '@mui/icons-material';
 import axios from 'axios';
 
+const BE_BASE_URL = 'https://jayadhi-limited-be.vercel.app';
+
 const emailTypes = [
   { value: 'formal', label: 'Formal' },
   { value: 'informal', label: 'Informal' },
@@ -70,16 +72,14 @@ export default function EmailGeneration() {
     setError('');
 
     try {
-      // Convert attachments string to array, filtering out empty strings
       const attachmentsArray = formData.attachments
         ? formData.attachments.split(',').map(att => att.trim()).filter(att => att.length > 0)
         : [];
 
-      const response = await axios.post('http://localhost:3000/api/generate-email', {
+      const response = await axios.post(`${BE_BASE_URL}/api/generate-email`, {
         ...formData,
         attachments: attachmentsArray
       });
-       // console.log(response);
       setGeneratedEmail(response.data.result);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to generate email. Please try again.');

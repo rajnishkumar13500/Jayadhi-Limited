@@ -18,6 +18,8 @@ import {
 import { ContentCopy as CopyIcon } from '@mui/icons-material';
 import axios from 'axios';
 
+const BE_BASE_URL = 'https://jayadhi-limited-be.vercel.app';
+
 const languages = [
   { code: 'es', name: 'Spanish' },
   { code: 'fr', name: 'French' },
@@ -54,7 +56,7 @@ export default function Translation() {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:3000/api/translate', {
+      const response = await axios.post(`${BE_BASE_URL}/api/translate`, {
         text: sourceText,
         language: targetLanguage,
       });

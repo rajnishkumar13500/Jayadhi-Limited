@@ -18,6 +18,8 @@ import {
 import { ContentCopy as CopyIcon } from '@mui/icons-material';
 import axios from 'axios';
 
+const BE_BASE_URL = 'https://jayadhi-limited-be.vercel.app';
+
 const summaryTypes = [
   { value: 'light', label: 'Light Summary' },
   { value: 'medium', label: 'Medium Summary' },
@@ -42,7 +44,7 @@ export default function Summarization() {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:3000/api/summarize', {
+      const response = await axios.post(`${BE_BASE_URL}/api/summarize`, {
         text: sourceText,
         level: summaryType,
       });
