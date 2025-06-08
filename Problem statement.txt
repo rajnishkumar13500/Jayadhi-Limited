@@ -1,0 +1,8 @@
+ Smart Utility Tool Dashboard
+ 
+Design a dashboard with buttons that simulate smart assistant functions.
+Include:
+• Chat input/output box or button-based tools
+• Tools like: summarize text, translate, generate an email
+• Simulated logic (can use basic conditions or APIs)
+• Optional: Language and tone toggle
